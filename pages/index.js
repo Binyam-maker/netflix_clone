@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Banner from "./components/Banner";
 
 export default function Home() {
   return (
@@ -12,9 +13,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}></main>
+      <main>
+        <Banner />
+        <h1 className="text-3xl ">Netflix</h1>
+      </main>
 
-      <footer className={styles.footer}></footer>
+      <footer></footer>
     </div>
   );
 }
