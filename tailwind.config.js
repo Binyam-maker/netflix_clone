@@ -11,6 +11,8 @@ module.exports = {
       },
       colors: {
         borderColor: "#222",
+        mainRed: "#f40612",
+        transBlack: "rgba(0,0,0,30%)",
       },
     },
   },
