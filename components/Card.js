@@ -1,0 +1,89 @@
+import React from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import { BsFillPlayFill, BsPlus, BsFillCaretDownFill } from "react-icons/bs";
+
+const cardContainer = {
+  hover: {
+    scale: 1.2,
+  },
+};
+const detailContainer = {
+  hidden: {
+    y: "-100vh",
+  },
+  visible: {
+    y: 0,
+  },
+};
+const Card = ({ size }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [hover, setHover] = useState(false);
+
+  const dimensions =
+    size === "small"
+      ? " w-60 h-36  md:w-64 md:h-32 lg:w-72 lg:h-40"
+      : "w-[215px] h-[325px]  md:w-[239px] md:h-[363px] lg:w-[286px] lg:h-[436px] ";
+
+  // create an event listener
+  useEffect(() => {
+    //check the screen size
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+    // Check Screen Size initially
+    handleResize();
+    // Check Screen Size On Resize
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <motion.div
+      className={`relative  flex-none hover:z-10  ${dimensions}`}
+      variants={isMobile ? "" : cardContainer}
+      whileHover="hover"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      {/* Banner */}
+      <Image
+        className="rounded-lg"
+        src="/home_banner_pic.jpg"
+        layout="fill"
+        objectFit="cover"
+      />
+      {/* Detail */}
+      {/* ${hover ? "md:visible" : ""} */}
+      {/* {isMobile ? "" : hover ? detailContainer : ""} */}
+
+      <div
+        className={` opacity-0 grid gap-1 absolute -bottom-20 left-1 h-fit p-1 ${
+          hover ? "md:visible md:-translate-y-20 md:opacity-100" : ""
+        }  transition delay-150 duration-500`}
+      >
+        <div className="flex gap-3 mb-1 text-3xl lg:text-4xl">
+          <button className=" rounded-full border-2 hover:text-black hover:bg-white">
+            <BsFillPlayFill />
+          </button>
+
+          <button className=" rounded-full border-2 hover:text-black hover:bg-white">
+            <BsPlus />
+          </button>
+          <button className=" rounded-full border-2 hover:text-black hover:bg-white">
+            <BsFillCaretDownFill />
+          </button>
+        </div>
+        <h3>Title</h3>
+        <h3>Genre</h3>
+      </div>
+    </motion.div>
+  );
+};
+
+export default Card;

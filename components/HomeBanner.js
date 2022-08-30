@@ -1,12 +1,11 @@
 import React from "react";
 import Image from "next/image";
-import BottomBorder from "./BottomBorder";
 import { FaPlay } from "react-icons/fa";
 import { MdOutlineInfo } from "react-icons/md";
 
 const HomeBanner = () => {
   return (
-    <div className="overflow-hidden absolute top-0 left-0 w-screen h-[90vh] md:h-screen">
+    <div className=" relative w-screen h-[90vh] md:h-screen">
       {/* Banner Picture */}
       <Image src="/home_banner_pic.jpg" layout="fill" objectFit="cover" />
       {/* Dark Gradient Overlay*/}
@@ -43,8 +42,6 @@ const HomeBanner = () => {
           </p>
         </div>
       </div>
-      {/* Bottom Border */}
-      <BottomBorder />
     </div>
   );
 };

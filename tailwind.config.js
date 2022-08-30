@@ -15,6 +15,7 @@ module.exports = {
         transBlack: "rgba(0,0,0,30%)",
         transBlack2: "rgba(0,0,0,92%)",
         moreInfo: "rgba(109, 109, 110, 0.70)",
+        backgroundBlack: "#141414",
       },
     },
   },
