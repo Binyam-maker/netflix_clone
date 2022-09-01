@@ -9,22 +9,16 @@ const cardContainer = {
     scale: 1.2,
   },
 };
-const detailContainer = {
-  hidden: {
-    y: "-100vh",
-  },
-  visible: {
-    y: 0,
-  },
-};
+
 const Card = ({ size }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [hover, setHover] = useState(false);
 
-  const dimensions =
-    size === "small"
-      ? " w-60 h-36  md:w-64 md:h-32 lg:w-72 lg:h-40"
-      : "w-[215px] h-[325px]  md:w-[239px] md:h-[363px] lg:w-[286px] lg:h-[436px] ";
+  const isSmallCard = size === "small";
+
+  const dimensions = isSmallCard
+    ? " w-60 h-36  md:w-64 md:h-32 lg:w-72 lg:h-40"
+    : "w-[215px] h-[325px]  md:w-[239px] md:h-[363px] lg:w-[286px] lg:h-[436px] ";
 
   // create an event listener
   useEffect(() => {
@@ -57,17 +51,24 @@ const Card = ({ size }) => {
         src="/home_banner_pic.jpg"
         layout="fill"
         objectFit="cover"
+        alt="Movie banner in a card."
       />
       {/* Detail */}
-      {/* ${hover ? "md:visible" : ""} */}
-      {/* {isMobile ? "" : hover ? detailContainer : ""} */}
 
       <div
-        className={` opacity-0 grid gap-1 absolute -bottom-20 left-1 h-fit p-1 ${
-          hover ? "md:visible md:-translate-y-20 md:opacity-100" : ""
+        className={` opacity-0 grid gap-1 absolute -bottom-24 left-1 h-fit p-1 ${
+          hover
+            ? `${
+                isSmallCard ? "md:-translate-y-[102px]" : "md:-translate-y-32"
+              }  md:opacity-100`
+            : ""
         }  transition delay-150 duration-500`}
       >
-        <div className="flex gap-3 mb-1 text-3xl lg:text-4xl">
+        <div
+          className={`flex gap-3 mb-1 ${
+            isSmallCard ? "text-1xl lg:text-2xl" : "text-3xl lg:text-4xl"
+          } `}
+        >
           <button className=" rounded-full border-2 hover:text-black hover:bg-white">
             <BsFillPlayFill />
           </button>
@@ -79,8 +80,21 @@ const Card = ({ size }) => {
             <BsFillCaretDownFill />
           </button>
         </div>
-        <h3>Title</h3>
-        <h3>Genre</h3>
+
+        <h3
+          className={
+            isSmallCard ? `text-sm lg:text-base` : `text-base lg:text-lg`
+          }
+        >
+          Title
+        </h3>
+        <h3
+          className={
+            isSmallCard ? `text-sm lg:text-base` : `text-base lg:text-lg`
+          }
+        >
+          Genre
+        </h3>
       </div>
     </motion.div>
   );

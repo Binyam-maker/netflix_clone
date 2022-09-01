@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { FaPlay } from "react-icons/fa";
 import { MdOutlineInfo } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { getFeatureItems } from "../features/feature/featureSlice";
+
+// random number generator b/n intervals
+const randomIntFromInterval = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
 
 const HomeBanner = () => {
+  const dispatch = useDispatch();
+  const { isLoading, featureItems } = useSelector((store) => store.feature);
+  const featureItem = featureItems[randomIntFromInterval(0, 20)];
+
+  // get feature data
+  useEffect(() => {
+    dispatch(getFeatureItems());
+  }, []);
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+  const imgUrl = `https://image.tmdb.org/t/p/w1280${featureItem.backdrop_path}`;
+  console.log("here", featureItems, isLoading);
   return (
     <div className=" relative w-screen h-[90vh] md:h-screen">
       {/* Banner Picture */}
-      <Image src="/home_banner_pic.jpg" layout="fill" objectFit="cover" />
+      <Image src={imgUrl} layout="fill" objectFit="cover" />
       {/* Dark Gradient Overlay*/}
       <div className=" relative w-full h-full  bg-gradient-to-b from-black to-black via-transBlack  "></div>
       {/* Detail */}
@@ -15,7 +35,7 @@ const HomeBanner = () => {
         <div>
           {/* Title */}
           <h1 className="text-3xl md:text-5xl max-w-md mx-auto font-extrabold lg:mx-0  lg:w-fit">
-            The Sandman
+            {featureItem.original_name}
           </h1>
           {/* Button Container */}
           <div className="flex  gap-4  mt-7 justify-center w-full lg:justify-start  lg:w-fit ">
@@ -34,11 +54,9 @@ const HomeBanner = () => {
               More Info
             </button>
           </div>
-          {/* Details */}
-          <p className="text-sm max-w-md mx-auto mt-4 font-medium md:text-lg md:max-w-xl lg:max-w-md lg:text-base">
-            After years of imprisonment, Morpheus — the King of Dreams — embarks
-            on a journey across worlds to find what was stolen from him and
-            restore his powe...
+          {/* Overview */}
+          <p className="text-sm max-w-md mx-auto mt-4 font-medium md:text-lg md:max-w-xl lg:max-w-md lg:text-base max-h-20  line-clamp-3 text-ellipsis ">
+            {featureItem.overview}
           </p>
         </div>
       </div>

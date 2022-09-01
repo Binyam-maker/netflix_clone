@@ -5,7 +5,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 
 const Banner = () => {
   return (
-    <div className="overflow-hidden absolute top-0 left-0 w-screen h-[63vh] md:h-screen">
+    <div className="overflow-hidden absolute top-0 left-0 w-screen h-screen">
       {/* Background Container */}
       {/* Banner Picture */}
       <Image src="/banner_pic.jpg" layout="fill" objectFit="cover" />
@@ -42,8 +42,6 @@ const Banner = () => {
           </form>
         </div>
       </div>
-      {/* Bottom Border */}
-      <BottomBorder />
     </div>
   );
 };

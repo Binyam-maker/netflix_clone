@@ -1,24 +1,20 @@
 import Head from "next/head";
-
 import Navbar from "../components/Navbar";
-
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import HomeBanner from "../components/HomeBanner";
-import Image from "next/image";
-import Card from "../components/Card";
 import Row from "../components/Row";
+
 // fetch the user and return user and loading state
 const useUser = () => ({ user: null, loading: false });
+
 export default function Home() {
   const { user, loading } = useUser();
 
+  // if user is null go to login page
   const router = useRouter();
   useEffect(() => {}, [user, loading]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
   return (
     <div>
       <Head>
@@ -35,8 +31,6 @@ export default function Home() {
         <HomeBanner />
         <Row title={"Trending"} />
         <Row title={"Originals"} />
-
-        <div className="w-screen h-[100vh] bg-lime-500 "></div>
       </main>
 
       <footer></footer>
