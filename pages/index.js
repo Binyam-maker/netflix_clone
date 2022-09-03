@@ -6,7 +6,9 @@ import HomeBanner from "../components/HomeBanner";
 import Row from "../components/Row";
 import { wrapper } from "../store";
 import axios from "axios";
-import { addFeatureItems } from "../features/feature/featureSlice";
+import { addMainData } from "../features/feature/featureSlice";
+import { useSelector } from "react-redux";
+import getMainData from "../lib/getMainData";
 
 const url = `https://api.themoviedb.org/3/trending/tv/week?api_key=1f5551cada1a3a631267a5841ebe5203`;
 
@@ -15,7 +17,7 @@ const useUser = () => ({ user: null, loading: false });
 
 export default function Home() {
   const { user, loading } = useUser();
-
+  const { mainData } = useSelector((state) => state.feature);
   // if user is null go to login page
   const router = useRouter();
   useEffect(() => {}, [user, loading]);
@@ -31,11 +33,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="relative overflow-hidden bg-backgroundBlack">
+      <main className="relative overflow-hidden bg-backgroundBlack ">
         <Navbar home={true} />
         <HomeBanner />
-        <Row title={"Trending"} />
-        <Row title={"Originals"} />
+        <Row title={"Trending TV"} list={mainData.trendingTV} />
+        <Row title={"Trending Movie"} list={mainData.trendingMovie} />
+        {/* <Row title={"Originals"} /> */}
       </main>
 
       <footer></footer>
@@ -46,11 +49,20 @@ export default function Home() {
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
     try {
-      const response = await axios.get(url);
-      const featureItems = response.data;
-      store.dispatch(addFeatureItems(featureItems));
+      const mainData = await getMainData();
+
+      store.dispatch(addMainData(mainData));
     } catch (error) {
       console.log(error);
     }
+
+    // try {
+    //   const response = await axios.get(url);
+    //   const featureItems = response.data;
+    //   console.log(featureItems.results);
+    //   store.dispatch(addFeatureItems(featureItems.results));
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 );

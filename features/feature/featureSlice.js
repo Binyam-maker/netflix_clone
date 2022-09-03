@@ -1,53 +1,43 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { HYDRATE } from "next-redux-wrapper";
+import { createSlice } from "@reduxjs/toolkit";
 
-const url = `https://api.themoviedb.org/3/trending/tv/week?api_key=1f5551cada1a3a631267a5841ebe5203`;
+import { HYDRATE } from "next-redux-wrapper";
 
 // random number generator b/n intervals
 const randomIntFromInterval = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min);
 const initialState = {
-  featureItems: {},
+  mainData: {},
   featureItem: {},
   isLoading: true,
 };
 
-// export const getFeatureItems = createAsyncThunk(
-//   "discover/getFeatureItems",
-//   async () => {
-//     try {
-//       const response = await axios.get(url);
-//       return response.data;
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// );
 const featureSlice = createSlice({
   name: "feature",
   initialState,
   reducers: {
-    addFeatureItems: (state, action) => {
-      state.featureItems = action.payload.results;
-      state.featureItem = state.featureItems[randomIntFromInterval(0, 20)];
+    addMainData: (state, action) => {
+      state.mainData = action.payload;
+      state.featureItem = [
+        ...action.payload.trendingMovie,
+        ...action.payload.trendingTV,
+      ][randomIntFromInterval(0, 39)];
       state.isLoading = false;
     },
     clearFeature: (state) => {
-      state.featureItems = [];
+      state.mainData = {};
     },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
-      if (!action.payload.feature.featureItems) {
+      if (!action.payload.feature.mainData) {
         return state;
       }
-      (state.featureItems = action.payload.feature.featureItems),
+      (state.mainData = action.payload.feature.mainData),
         (state.featureItem = action.payload.feature.featureItem),
         (state.isLoading = false);
     },
   },
 });
 
-export const { addFeatureItems, clearFeature } = featureSlice.actions;
+export const { addMainData, clearFeature } = featureSlice.actions;
 export default featureSlice.reducer;

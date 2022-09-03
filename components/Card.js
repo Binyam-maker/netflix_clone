@@ -3,16 +3,21 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { BsFillPlayFill, BsPlus, BsFillCaretDownFill } from "react-icons/bs";
-
+import { genreTranslator } from "../lib/genreTranslator";
 const cardContainer = {
   hover: {
     scale: 1.2,
   },
 };
 
-const Card = ({ size }) => {
+const Card = ({ size, poster, title, genre }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [hover, setHover] = useState(false);
+
+  const imgUrl =
+    poster !== null
+      ? `https://image.tmdb.org/t/p/w1280${poster}`
+      : "/home_banner.jpg";
 
   const isSmallCard = size === "small";
 
@@ -48,7 +53,7 @@ const Card = ({ size }) => {
       {/* Banner */}
       <Image
         className="rounded-lg"
-        src="/home_banner_pic.jpg"
+        src={imgUrl}
         layout="fill"
         objectFit="cover"
         alt="Movie banner in a card."
@@ -83,17 +88,26 @@ const Card = ({ size }) => {
 
         <h3
           className={
-            isSmallCard ? `text-sm lg:text-base` : `text-base lg:text-lg`
+            isSmallCard
+              ? `text-sm lg:text-base font-semibold truncate`
+              : `text-base lg:text-lg font-semibold`
           }
         >
-          Title
+          {title}
         </h3>
         <h3
           className={
-            isSmallCard ? `text-sm lg:text-base` : `text-base lg:text-lg`
+            isSmallCard
+              ? `text-xsm lg:text-base truncate`
+              : `text-base lg:text-lg`
           }
         >
-          Genre
+          {genre &&
+            genre
+              .map((item) => {
+                return genreTranslator(item);
+              })
+              .join(" . ")}
         </h3>
       </div>
     </motion.div>

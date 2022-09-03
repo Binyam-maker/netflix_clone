@@ -29,7 +29,7 @@ const HomeBanner = () => {
         <div>
           {/* Title */}
           <h1 className="text-3xl md:text-5xl max-w-md mx-auto font-extrabold lg:mx-0  lg:w-fit">
-            {featureItem.original_name}
+            {featureItem.original_name || featureItem.original_title}
           </h1>
           {/* Button Container */}
           <div className="flex  gap-4  mt-7 justify-center w-full lg:justify-start  lg:w-fit ">
