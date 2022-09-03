@@ -1,29 +1,23 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import { FaPlay } from "react-icons/fa";
 import { MdOutlineInfo } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import { getFeatureItems } from "../features/feature/featureSlice";
-
-// random number generator b/n intervals
-const randomIntFromInterval = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1) + min);
+import { useSelector } from "react-redux";
 
 const HomeBanner = () => {
-  const dispatch = useDispatch();
-  const { isLoading, featureItems } = useSelector((store) => store.feature);
-  const featureItem = featureItems[randomIntFromInterval(0, 20)];
-
-  // get feature data
-  useEffect(() => {
-    dispatch(getFeatureItems());
-  }, []);
+  const { isLoading, featureItem } = useSelector((store) => store.feature);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return (
+      <h1 className="relative w-screen h-[90vh] md:h-screen">Loading...</h1>
+    );
   }
-  const imgUrl = `https://image.tmdb.org/t/p/w1280${featureItem.backdrop_path}`;
-  console.log("here", featureItems, isLoading);
+
+  const imgUrl =
+    featureItem !== null
+      ? `https://image.tmdb.org/t/p/w1280${featureItem.backdrop_path}`
+      : "/home_banner.jpg";
+
   return (
     <div className=" relative w-screen h-[90vh] md:h-screen">
       {/* Banner Picture */}
