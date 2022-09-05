@@ -11,6 +11,7 @@ import getMainData from "../lib/getMainData";
 import { useSession } from "next-auth/react";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
+import { useEffect } from "react";
 
 const url = `https://api.themoviedb.org/3/trending/tv/week?api_key=1f5551cada1a3a631267a5841ebe5203`;
 
@@ -24,6 +25,9 @@ export default function Home() {
   const router = useRouter();
 
   // if (typeof window === "undefined") return null;
+  //from next-auth documentation - Securing pages and API routes
+  // useEffect runs only on browser
+  // useEffect(() => null);
   // if user/session  is undefined or null show login page
   if (!session) {
     // return (
@@ -32,7 +36,7 @@ export default function Home() {
     //     <AuthBanner />
     //   </>
     // );
-    router.push("/login");
+    // router.push("/login");
   }
 
   return (
