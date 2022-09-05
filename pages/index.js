@@ -56,7 +56,6 @@ export default function Home() {
           <HomeBanner />
           <Row title={"Trending TV"} list={mainData.trendingTV} />
           <Row title={"Trending Movie"} list={mainData.trendingMovie} />
-          {/* <Row title={"Originals"} /> */}
         </main>
 
         <footer></footer>

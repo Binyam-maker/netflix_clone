@@ -38,7 +38,7 @@ const Navbar = ({ home }) => {
   };
 
   return (
-    <div className="absolute top-0 left-0 flex w-screen h-20  items-center z-10  lg:max-w-5xl md:max-w-3xl mx-auto  ">
+    <div className="absolute top-0 left-0 flex w-screen h-20  items-center   lg:max-w-5xl md:max-w-3xl mx-auto  ">
       {/* Logo */}
 
       <div className="absolute  left-10   w-24 h-10 md:w-32 md:h-26  ">

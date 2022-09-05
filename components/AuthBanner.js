@@ -1,13 +1,40 @@
 import React from "react";
 import Image from "next/image";
-import BottomBorder from "./BottomBorder";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { signIn } from "next-auth/react";
+import { useState } from "react";
+import FormRow from "./FormRow";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const initialValuesState = {
+  name: "",
+  email: "",
+  password: "",
+};
 
 const Banner = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [values, setValues] = useState(initialValuesState);
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setValues({ ...values, [name]: value });
+  };
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    const { name, email, password } = values;
+    console.log(name, email, password);
+    if (!name || !email || !password) {
+      toast.error("Please fill out all the fields");
+      return;
+    }
+    toast.error("Please fill out all the fields");
+  };
+
   return (
-    <div className="overflow-hidden absolute top-0 left-0 w-screen h-screen">
+    <div className="overflow-hidden absolute top-0 left-0 w-screen h-screen ">
       {/* Background Container */}
+
       {/* Banner Picture */}
       <Image src="/banner_pic.jpg" layout="fill" objectFit="cover" />
       {/* Dark Gradient Overlay*/}
@@ -26,16 +53,32 @@ const Banner = () => {
             membership.
           </p>
 
-          <form className="md:flex md:align-middle  mt-4">
-            <input
-              id="email"
-              name="email"
-              placeholder="Email address"
-              className="p-2 rounded-sm w-full outline-none "
-            ></input>
+          <form className="grid md:flex gap-1 md:align-middle   mt-4">
+            <FormRow
+              name={"name"}
+              placeholder={"Name"}
+              onChange={handleChange}
+              type={"text"}
+              value={values.name}
+            />
+            <FormRow
+              name={"email"}
+              placeholder={"Email address"}
+              onChange={handleChange}
+              type={"email"}
+              value={values.email}
+            />
+            <FormRow
+              name={"password"}
+              placeholder={"Password"}
+              onChange={handleChange}
+              type={"password"}
+              value={values.password}
+            />
             <button
               type="submit"
               className="flex place-items-center bg-mainRed p-2 text-xl mx-auto min-w-fit mt-4 md:mt-0  "
+              onClick={handleOnSubmit}
             >
               Get Started
               <MdKeyboardArrowRight />
