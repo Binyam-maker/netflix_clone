@@ -13,7 +13,7 @@ function Row({ title, list }) {
           {list.map((item) => {
             return (
               <Card
-                id={item.id}
+                key={item.id}
                 size={size}
                 poster={item.backdrop_path}
                 title={item.original_name || item.original_title}
@@ -21,10 +21,6 @@ function Row({ title, list }) {
               />
             );
           })}
-          <Card id={1} size={size} />
-          <Card id={2} size={size} />
-          <Card id={3} size={size} />
-          <Card id={4} size={size} />
         </ScrollContainer>
       </div>
     </>

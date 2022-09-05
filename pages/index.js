@@ -1,14 +1,16 @@
 import Head from "next/head";
 import Navbar from "../components/Navbar";
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 import HomeBanner from "../components/HomeBanner";
+import AuthBanner from "../components/AuthBanner";
 import Row from "../components/Row";
 import { wrapper } from "../store";
-import axios from "axios";
 import { addMainData } from "../features/feature/featureSlice";
 import { useSelector } from "react-redux";
 import getMainData from "../lib/getMainData";
+import { useSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../pages/api/auth/[...nextauth]";
 
 const url = `https://api.themoviedb.org/3/trending/tv/week?api_key=1f5551cada1a3a631267a5841ebe5203`;
 
@@ -18,12 +20,24 @@ const useUser = () => ({ user: null, loading: false });
 export default function Home() {
   const { user, loading } = useUser();
   const { mainData } = useSelector((state) => state.feature);
-  // if user is null go to login page
+  const { data: session } = useSession();
   const router = useRouter();
-  useEffect(() => {}, [user, loading]);
+
+  // if (typeof window === "undefined") return null;
+  // if user/session  is undefined or null show login page
+  if (!session) {
+    // return (
+    //   <>
+    //     <Navbar />
+    //     <AuthBanner />
+    //   </>
+    // );
+    router.push("/login");
+  }
 
   return (
-    <div>
+    <>
+      {" "}
       <Head>
         <title>Netflix_Clone</title>
         <meta
@@ -32,22 +46,23 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div>
+        <main className="relative overflow-hidden bg-backgroundBlack ">
+          <Navbar home={true} />
+          <HomeBanner />
+          <Row title={"Trending TV"} list={mainData.trendingTV} />
+          <Row title={"Trending Movie"} list={mainData.trendingMovie} />
+          {/* <Row title={"Originals"} /> */}
+        </main>
 
-      <main className="relative overflow-hidden bg-backgroundBlack ">
-        <Navbar home={true} />
-        <HomeBanner />
-        <Row title={"Trending TV"} list={mainData.trendingTV} />
-        <Row title={"Trending Movie"} list={mainData.trendingMovie} />
-        {/* <Row title={"Originals"} /> */}
-      </main>
-
-      <footer></footer>
-    </div>
+        <footer></footer>
+      </div>
+    </>
   );
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
+  (store) => async (context) => {
     try {
       const mainData = await getMainData();
 
@@ -55,14 +70,25 @@ export const getServerSideProps = wrapper.getServerSideProps(
     } catch (error) {
       console.log(error);
     }
+    // next-auth
+    const session = await unstable_getServerSession(
+      context.req,
+      context.res,
+      authOptions
+    );
 
-    // try {
-    //   const response = await axios.get(url);
-    //   const featureItems = response.data;
-    //   console.log(featureItems.results);
-    //   store.dispatch(addFeatureItems(featureItems.results));
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    if (!session) {
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      };
+    }
+    return {
+      props: {
+        session,
+      },
+    };
   }
 );

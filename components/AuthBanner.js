@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import BottomBorder from "./BottomBorder";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { signIn } from "next-auth/react";
 
 const Banner = () => {
   return (
@@ -12,7 +13,7 @@ const Banner = () => {
       {/* Dark Gradient Overlay*/}
       <div className=" relative w-full h-full  bg-gradient-to-b from-black to-black via-transBlack  "></div>
       {/* Detail */}
-      <div className="absolute top-8 left-0 grid   place-items-center w-full h-full text-center  mx-auto ">
+      <div className="absolute top-8 left-0 grid place-items-center w-full h-full text-center  mx-auto ">
         <div>
           <h1 className="text-3xl md:text-5xl max-w-md mx-auto">
             Unlimited movies, TV shows, and more.

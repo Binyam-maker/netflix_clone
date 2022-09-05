@@ -13,17 +13,22 @@ const cardContainer = {
 const Card = ({ size, poster, title, genre }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [hover, setHover] = useState(false);
-
-  const imgUrl =
-    poster !== null
-      ? `https://image.tmdb.org/t/p/w1280${poster}`
-      : "/home_banner.jpg";
+  const [imageUrl, setImageUrl] = useState(
+    `https://image.tmdb.org/t/p/w1280${poster}` || "/movie_poster.jpg"
+  );
+  // let imgUrl =
+  //   poster !== null
+  //     ? `https://image.tmdb.org/t/p/w1280${poster}`
+  //     : "/movie_poster.jpg";
 
   const isSmallCard = size === "small";
 
   const dimensions = isSmallCard
     ? " w-60 h-36  md:w-64 md:h-32 lg:w-72 lg:h-40"
     : "w-[215px] h-[325px]  md:w-[239px] md:h-[363px] lg:w-[286px] lg:h-[436px] ";
+  const handleOnError = () => {
+    setImageUrl("/movie_poster.jpg");
+  };
 
   // create an event listener
   useEffect(() => {
@@ -53,10 +58,11 @@ const Card = ({ size, poster, title, genre }) => {
       {/* Banner */}
       <Image
         className="rounded-lg"
-        src={imgUrl}
+        src={imageUrl}
         layout="fill"
         objectFit="cover"
         alt="Movie banner in a card."
+        onError={handleOnError}
       />
       {/* Detail */}
 

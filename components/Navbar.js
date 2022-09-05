@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import MenuModal from "./MenuModal";
-import { AnimatePresence } from "framer-motion";
+import { signIn, signOut } from "next-auth/react";
 
 const dropDownVariant = {
   rotate: {
@@ -33,6 +33,7 @@ const Navbar = ({ home }) => {
 
   const onSignOut = (e) => {
     e.preventDefault();
+    signOut();
     router.push("/login");
   };
 
@@ -83,6 +84,7 @@ const Navbar = ({ home }) => {
         <button
           className="absolute right-10  bg-mainRed px-2 rounded-sm text-base md:text-lg 
          "
+          onClick={() => signIn()}
         >
           Sign In
         </button>
