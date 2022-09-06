@@ -1,15 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { HYDRATE } from "next-redux-wrapper";
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (user, thunkApi) => {
     try {
-      const resp = await axios.post("/api/register", user);
-      console.log("resp.data", resp.data);
-      return resp.data;
+      console.log("registerUser", user);
+      const resp = await axios.post("/api/register", { user });
+      const newUser = resp.data;
+      return newUser;
     } catch (error) {
       thunkApi.rejectWithValue(error.response.data.msg);
     }
@@ -43,9 +43,11 @@ const authSlice = createSlice({
       state.isLoading = true;
     },
     [registerUser.fulfilled]: (state, { payload }) => {
-      const { user } = payload;
+      console.log("payload", payload);
+      const user = payload.data;
       console.log("user", user);
-      state.user = { ...user };
+
+      state.user = { name: user.name, email: user.email, id: user._id };
       state.isLoading = false;
       toast.success(`Hello, ${state.user.name}`);
     },

@@ -6,7 +6,9 @@ import FormRow from "./FormRow";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { registerUser } from "../features/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const initialValuesState = {
   name: "",
@@ -15,14 +17,27 @@ const initialValuesState = {
 };
 
 const Banner = () => {
-  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
   const [values, setValues] = useState(initialValuesState);
   const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.auth);
+  console.log("authBanner user", user);
+
+  //change route when email signup is complete
+  useEffect(() => {
+    if (user) {
+      console.log("hello");
+      router.push("/");
+    }
+  }, [user]);
+
+  // Controlled input
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setValues({ ...values, [name]: value });
   };
+  // On form submit
   const handleOnSubmit = (e) => {
     e.preventDefault();
     const { name, email, password } = values;
