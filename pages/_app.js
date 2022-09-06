@@ -7,6 +7,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
       <Component {...pageProps} />
+
       {/* putting toastify in the root */}
       <ToastContainer
         position="top-center"

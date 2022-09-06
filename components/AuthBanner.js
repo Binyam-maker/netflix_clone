@@ -3,8 +3,10 @@ import Image from "next/image";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useState } from "react";
 import FormRow from "./FormRow";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { registerUser } from "../features/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 const initialValuesState = {
   name: "",
@@ -15,6 +17,7 @@ const initialValuesState = {
 const Banner = () => {
   const [showModal, setShowModal] = useState(false);
   const [values, setValues] = useState(initialValuesState);
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -23,12 +26,12 @@ const Banner = () => {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     const { name, email, password } = values;
-    console.log(name, email, password);
+
     if (!name || !email || !password) {
       toast.error("Please fill out all the fields");
       return;
     }
-    toast.error("Please fill out all the fields");
+    dispatch(registerUser({ name, email, password }));
   };
 
   return (

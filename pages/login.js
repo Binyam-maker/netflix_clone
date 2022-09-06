@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React from "react";
 
-import Banner from "../components/AuthBanner";
+import AuthBanner from "../components/AuthBanner";
 import Navbar from "../components/Navbar";
 
 const login = () => {
@@ -11,7 +11,7 @@ const login = () => {
         <title>Sign Up</title>
       </Head>
       <Navbar />
-      <Banner />
+      <AuthBanner />
     </>
   );
 };
