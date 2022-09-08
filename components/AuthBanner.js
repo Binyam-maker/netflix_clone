@@ -17,19 +17,10 @@ const initialValuesState = {
 };
 
 const Banner = () => {
-  const router = useRouter();
   const [values, setValues] = useState(initialValuesState);
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
   console.log("authBanner user", user);
-
-  //change route when email signup is complete
-  useEffect(() => {
-    if (user) {
-      console.log("hello");
-      router.push("/");
-    }
-  }, [user]);
 
   // Controlled input
   const handleChange = (e) => {

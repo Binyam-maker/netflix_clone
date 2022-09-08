@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { signIn } from "next-auth/react";
+import { HYDRATE } from "next-redux-wrapper";
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -25,37 +27,34 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    removeUser: (state) => {
+    clearUser: (state) => {
       state.user = {};
+      state.isLoading = false;
+    },
+    addUser: (state, action) => {
+      state.user = action.payload;
+      state.isLoading = false;
     },
   },
   extraReducers: {
-    // [HYDRATE]: (state, action) => {
-    //   if (!action.payload.auth.name) {
-    //     return state;
-    //   }
-    //   (state.name = action.payload.auth.name),
-    //     (state.email = action.payload.auth.email),
-    //     (state.password = action.payload.auth.password),
-    //     (state.isLoading = action.payload.auth.isLoading);
-    // },
     [registerUser.pending]: (state) => {
       state.isLoading = true;
     },
     [registerUser.fulfilled]: (state, { payload }) => {
-      console.log("payload", payload);
-      const user = payload.data;
-      console.log("user", user);
-
-      state.user = { name: user.name, email: user.email, id: user._id };
+      // after sign up is finished go to sign in page
       state.isLoading = false;
-      toast.success(`Hello, ${state.user.name}`);
+      signIn();
     },
     [registerUser.rejected]: (state, { payload }) => {
       toast.error(`Error : ${payload}`);
       state.isLoading = false;
     },
+    [HYDRATE]: (state, action) => {
+      state.user = action.payload.auth.user;
+    },
   },
 });
+
+export const { clearUser, addUser } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -19,18 +19,19 @@ export default async function (req, res) {
 
     // check if user already exists
     const alreadyRegistered = await User.findOne({ email: user.email });
-
-    if (!alreadyRegistered) {
-      const createdUser = await User.create(user);
-      // Remove email and password
-      const newUser = createTokenUser(createdUser);
-      console.log("createdUser", newUser);
-      res.status(StatusCodes.CREATED).json({ success: true, data: newUser });
-      return;
+    // if already registered
+    if (alreadyRegistered) {
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: "This user is already registered" });
     }
-    res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ message: "This user is already registered" });
+
+    const createdUser = await User.create(user);
+    // Remove email and password
+    const newUser = createTokenUser(createdUser);
+    console.log("createdUser", newUser);
+    res.status(StatusCodes.CREATED).json({ success: true, data: newUser });
+    return;
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)

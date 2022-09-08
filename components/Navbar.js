@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import MenuModal from "./MenuModal";
 import { signIn, signOut } from "next-auth/react";
+import { clearUser } from "../features/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 const dropDownVariant = {
   rotate: {
@@ -23,6 +25,7 @@ const Navbar = ({ home }) => {
   const [showSignOut, setShowSignOut] = useState(false);
   const [currentPage, setCurrentPage] = useState("Discover");
   const [menuModalOpen, setMenuModalOpen] = useState(false);
+  const dispatch = useDispatch();
   const router = useRouter();
   const onDropDown = () => {
     setShowSignOut(!showSignOut);
@@ -34,11 +37,12 @@ const Navbar = ({ home }) => {
   const onSignOut = (e) => {
     e.preventDefault();
     signOut();
+    dispatch(clearUser());
     router.push("/login");
   };
 
   return (
-    <div className="absolute top-0 left-0 flex w-screen h-20  items-center   lg:max-w-5xl md:max-w-3xl mx-auto  ">
+    <div className="absolute top-0 left-0 flex w-screen h-20  items-center  z-10 lg:max-w-5xl md:max-w-3xl mx-auto  ">
       {/* Logo */}
 
       <div className="absolute  left-10   w-24 h-10 md:w-32 md:h-26  ">
