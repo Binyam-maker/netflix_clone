@@ -1,9 +1,11 @@
 import React from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { BsFillPlayFill, BsPlus, BsFillCaretDownFill } from "react-icons/bs";
 import { genreTranslator } from "../lib/genreTranslator";
+import { openModal } from "../features/details/detailsSlice";
+import { useDispatch } from "react-redux";
 const cardContainer = {
   hover: {
     scale: 1.2,
@@ -16,10 +18,7 @@ const Card = ({ size, poster, title, genre }) => {
   const [imageUrl, setImageUrl] = useState(
     `https://image.tmdb.org/t/p/w1280${poster}` || "/movie_poster.jpg"
   );
-  // let imgUrl =
-  //   poster !== null
-  //     ? `https://image.tmdb.org/t/p/w1280${poster}`
-  //     : "/movie_poster.jpg";
+  const dispatch = useDispatch();
 
   const isSmallCard = size === "small";
 
@@ -87,7 +86,10 @@ const Card = ({ size, poster, title, genre }) => {
           <button className=" rounded-full border-2 hover:text-black hover:bg-white">
             <BsPlus />
           </button>
-          <button className=" rounded-full border-2 hover:text-black hover:bg-white">
+          <button
+            className=" rounded-full border-2 hover:text-black hover:bg-white"
+            onClick={() => dispatch(openModal())}
+          >
             <BsFillCaretDownFill />
           </button>
         </div>

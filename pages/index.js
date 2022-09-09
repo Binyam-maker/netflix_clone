@@ -11,11 +11,14 @@ import getMainData from "../lib/getMainData";
 import { useSession } from "next-auth/react";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { addUser } from "../features/auth/authSlice";
+import DetailModal from "../components/DetailModal";
 
 export default function Home() {
   const { mainData } = useSelector((state) => state.feature);
+  const { isModalOpen } = useSelector((state) => state.details);
+
   // const { data: session } = useSession();
 
   useEffect(() => {
@@ -30,7 +33,7 @@ export default function Home() {
   // if user/session  is undefined or null show login page
 
   return (
-    <>
+    <div>
       {" "}
       <Head>
         <title>Netflix_Clone</title>
@@ -40,17 +43,15 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
-        <main className="relative overflow-hidden bg-backgroundBlack ">
-          <Navbar home={true} />
-          <HomeBanner />
-          <Row title={"Trending TV"} list={mainData.trendingTV} />
-          <Row title={"Trending Movie"} list={mainData.trendingMovie} />
-        </main>
-
-        <footer></footer>
-      </div>
-    </>
+      <main className="relative overflow-hidden bg-backgroundBlack ">
+        <Navbar home={true} />
+        {isModalOpen && <DetailModal />}
+        <HomeBanner />
+        <Row title={"Trending TV"} list={mainData.trendingTV} />
+        <Row title={"Trending Movie"} list={mainData.trendingMovie} />
+      </main>
+      <footer></footer>
+    </div>
   );
 }
 
