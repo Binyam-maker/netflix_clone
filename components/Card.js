@@ -6,6 +6,7 @@ import { BsFillPlayFill, BsPlus, BsFillCaretDownFill } from "react-icons/bs";
 import { genreTranslator } from "../lib/genreTranslator";
 import { openModal } from "../features/details/detailsSlice";
 import { useDispatch } from "react-redux";
+
 const cardContainer = {
   hover: {
     scale: 1.2,
@@ -45,7 +46,10 @@ const Card = ({ size, poster, title, genre }) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
+  // Open detail modal
+  function handleOpenModal() {
+    dispatch(openModal());
+  }
   return (
     <motion.div
       className={`relative  flex-none hover:z-10  ${dimensions}`}
@@ -53,6 +57,7 @@ const Card = ({ size, poster, title, genre }) => {
       whileHover="hover"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onClick={handleOpenModal}
     >
       {/* Banner */}
       <Image
@@ -88,7 +93,7 @@ const Card = ({ size, poster, title, genre }) => {
           </button>
           <button
             className=" rounded-full border-2 hover:text-black hover:bg-white"
-            onClick={() => dispatch(openModal())}
+            onClick={handleOpenModal}
           >
             <BsFillCaretDownFill />
           </button>

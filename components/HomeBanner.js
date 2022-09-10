@@ -3,9 +3,12 @@ import Image from "next/image";
 import { FaPlay } from "react-icons/fa";
 import { MdOutlineInfo } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { openModal } from "../features/details/detailsSlice";
+import { useDispatch } from "react-redux";
 
 const HomeBanner = () => {
   const { isLoading, featureItem } = useSelector((store) => store.feature);
+  const dispatch = useDispatch();
 
   if (isLoading) {
     return (
@@ -43,6 +46,7 @@ const HomeBanner = () => {
             <button
               type="submit"
               className="flex place-items-center px-11 py-2 text-sm rounded-md gap-2  bg-moreInfo "
+              onClick={() => dispatch(openModal())}
             >
               <MdOutlineInfo />
               More Info
