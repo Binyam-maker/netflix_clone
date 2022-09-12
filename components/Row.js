@@ -18,6 +18,10 @@ function Row({ title, list }) {
                 poster={item.backdrop_path}
                 title={item.original_name || item.original_title}
                 genre={item.genre_ids}
+                overview={item.overview}
+                release_date={item.release_date}
+                vote_average={item.vote_average}
+                vote_count={item.vote_count}
               />
             );
           })}

@@ -1,13 +1,18 @@
 import Image from "next/image";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../features/details/detailsSlice";
 import { FaPlay } from "react-icons/fa";
-import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsXLg, BsPlusLg } from "react-icons/bs";
+import { useState } from "react";
 
 const DetailModal = () => {
   const dispatch = useDispatch();
+  const { title, overview, poster } = useSelector((state) => state.details);
+  console.log("detailsModal", title, overview, poster);
+  const [imageUrl, setImageUrl] = useState(
+    `https://image.tmdb.org/t/p/w1280${poster}` || "/movie_poster.jpg"
+  );
   const handleOnError = () => {
     setImageUrl("/movie_poster.jpg");
   };
@@ -24,7 +29,7 @@ const DetailModal = () => {
         <div className="relative  ">
           <Image
             className="rounded-t-md "
-            src="/banner_pic.jpg"
+            src={imageUrl}
             layout="fill"
             objectFit="cover"
             alt="Movie banner in a card."
@@ -56,13 +61,10 @@ const DetailModal = () => {
         {/* Details Container*/}
         <div className="grid gap-4 content-start p-4">
           <h1 className=" text-lg font-bold  h-fit tracking-wide md:text-xl lg:text-1xl ">
-            Title
+            {title}
           </h1>
-          <p className=" h-fit text-sm tracking-wide font-medium line-clamp-3 text-ellipsis md:text-base ">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
-            aperiam iure eligendi quis, consequatur necessitatibus quos quidem
-            ipsum voluptatibus excepturi quasi quas mollitia sequi sint, vero
-            magnam sit accusamus sapiente.
+          <p className=" h-fit text-sm tracking-wide font-medium   md:text-base ">
+            {overview}
           </p>
           <div className="bg-bottom bg-slate-500 w-full h-[1px]"></div>
         </div>

@@ -13,7 +13,16 @@ const cardContainer = {
   },
 };
 
-const Card = ({ size, poster, title, genre }) => {
+const Card = ({
+  size,
+  poster,
+  title,
+  genre,
+  overview,
+  release_date,
+  vote_average,
+  vote_count,
+}) => {
   const [isMobile, setIsMobile] = useState(false);
   const [hover, setHover] = useState(false);
   const [imageUrl, setImageUrl] = useState(
@@ -48,7 +57,17 @@ const Card = ({ size, poster, title, genre }) => {
   }, []);
   // Open detail modal
   function handleOpenModal() {
-    dispatch(openModal());
+    dispatch(
+      openModal({
+        poster,
+        overview,
+        title,
+        genre,
+        release_date,
+        vote_average,
+        vote_count,
+      })
+    );
   }
   return (
     <motion.div
@@ -57,7 +76,7 @@ const Card = ({ size, poster, title, genre }) => {
       whileHover="hover"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={handleOpenModal}
+      onClick={isMobile ? handleOpenModal : undefined}
     >
       {/* Banner */}
       <Image

@@ -8,7 +8,30 @@ import { useDispatch } from "react-redux";
 
 const HomeBanner = () => {
   const { isLoading, featureItem } = useSelector((store) => store.feature);
+  const {
+    backdrop_path: poster,
+    overview,
+    title,
+    genre,
+    release_date,
+    vote_average,
+    vote_count,
+  } = featureItem;
   const dispatch = useDispatch();
+
+  function handleOpenModal() {
+    dispatch(
+      openModal({
+        poster,
+        overview,
+        title,
+        genre,
+        release_date,
+        vote_average,
+        vote_count,
+      })
+    );
+  }
 
   if (isLoading) {
     return (
@@ -18,7 +41,7 @@ const HomeBanner = () => {
 
   const imgUrl =
     featureItem !== null
-      ? `https://image.tmdb.org/t/p/w1280${featureItem.backdrop_path}`
+      ? `https://image.tmdb.org/t/p/w1280${poster}`
       : "/home_banner.jpg";
 
   return (
@@ -46,7 +69,7 @@ const HomeBanner = () => {
             <button
               type="submit"
               className="flex place-items-center px-11 py-2 text-sm rounded-md gap-2  bg-moreInfo "
-              onClick={() => dispatch(openModal())}
+              onClick={handleOpenModal}
             >
               <MdOutlineInfo />
               More Info
