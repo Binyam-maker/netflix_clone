@@ -13,10 +13,13 @@ const DetailModal = () => {
   };
   return (
     <div
-      className="absolute left-0 top-0 grid  items-center justify-center bg-black bg-opacity-60 w-full h-full z-10"
+      className="absolute left-0 top-0 grid  items-center justify-center bg-transBlack  w-full h-full z-20"
       onClick={() => dispatch(closeModal())}
     >
-      <div className="fixed top-14 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl h-[90%] grid  grid-rows-[2fr_3fr] md:grid-rows-[2fr_1fr] lg:grid-rows-[4fr_1fr] bg-backgroundBlack overflow-auto ">
+      <div
+        className="fixed top-14 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl h-[90%] grid  grid-rows-[2fr_3fr] md:grid-rows-[2fr_1fr] lg:grid-rows-[4fr_1fr] bg-backgroundBlack overflow-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Banner Container */}
         <div className="relative  ">
           <Image
@@ -29,7 +32,10 @@ const DetailModal = () => {
           />
           {/* Dark overlay at the bottom */}
           <div className="relative h-full w-full bg-gradient-to-t from-backgroundBlack to-transparent via-transparent">
-            <button className="absolute top-4 right-4 text-1xl md:text-2xl rounded-full bg-transBlack2 hover:text-backgroundBlack hover:bg-slate-200 p-2 ">
+            <button
+              className="absolute top-4 right-4 text-1xl md:text-2xl rounded-full bg-transBlack2 hover:text-backgroundBlack hover:bg-slate-200 p-2 "
+              onClick={() => dispatch(closeModal())}
+            >
               <BsXLg />
             </button>
             {/* Button Container */}
@@ -49,7 +55,9 @@ const DetailModal = () => {
         </div>
         {/* Details Container*/}
         <div className="grid gap-4 content-start p-4">
-          <h1 className=" text-lg font-bold  h-fit tracking-wide md:text-xl lg:text-1xl ">Title</h1>
+          <h1 className=" text-lg font-bold  h-fit tracking-wide md:text-xl lg:text-1xl ">
+            Title
+          </h1>
           <p className=" h-fit text-sm tracking-wide font-medium line-clamp-3 text-ellipsis md:text-base ">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
             aperiam iure eligendi quis, consequatur necessitatibus quos quidem

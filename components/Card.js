@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { BsFillPlayFill, BsPlus, BsFillCaretDownFill } from "react-icons/bs";
 import { genreTranslator } from "../lib/genreTranslator";
 import { openModal } from "../features/details/detailsSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const cardContainer = {
   hover: {
@@ -68,6 +68,9 @@ const Card = ({ size, poster, title, genre }) => {
         alt="Movie banner in a card."
         onError={handleOnError}
       />
+
+      {/* Dark overlay at the bottom */}
+      <div className="relative h-full w-full bg-gradient-to-t from-backgroundBlack to-transparent via-transparent"></div>
       {/* Detail */}
 
       <div
@@ -79,30 +82,33 @@ const Card = ({ size, poster, title, genre }) => {
             : ""
         }  transition delay-150 duration-500`}
       >
+        {/* Buttons Container */}
         <div
           className={`flex gap-3 mb-1 ${
             isSmallCard ? "text-1xl lg:text-2xl" : "text-3xl lg:text-4xl"
           } `}
         >
-          <button className=" rounded-full border-2 hover:text-black hover:bg-white">
+          <button className=" rounded-full border-2  bg-transBlack hover:text-backgroundBlack hover:bg-slate-200 w-fit h-fit p-1">
             <BsFillPlayFill />
           </button>
 
-          <button className=" rounded-full border-2 hover:text-black hover:bg-white">
+          <button className=" rounded-full border-2  bg-transBlack hover:text-backgroundBlack hover:bg-slate-200 w-fit h-fit p-1">
             <BsPlus />
           </button>
           <button
-            className=" rounded-full border-2 hover:text-black hover:bg-white"
+            className=" rounded-full border-2  bg-transBlack hover:text-backgroundBlack hover:bg-slate-200 w-fit h-fit p-1"
             onClick={handleOpenModal}
           >
             <BsFillCaretDownFill />
           </button>
         </div>
 
+        {/* Title and Genre Container */}
+
         <h3
           className={
             isSmallCard
-              ? `text-sm lg:text-base font-semibold truncate`
+              ? `text-sm lg:text-base font-semibold truncate `
               : `text-base lg:text-lg font-semibold`
           }
         >
