@@ -12,7 +12,7 @@ const HomeBanner = () => {
     backdrop_path: poster,
     overview,
     title,
-    genre,
+    genre_ids: genre,
     release_date,
     vote_average,
     vote_count,

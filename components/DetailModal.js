@@ -5,10 +5,18 @@ import { closeModal } from "../features/details/detailsSlice";
 import { FaPlay } from "react-icons/fa";
 import { BsXLg, BsPlusLg } from "react-icons/bs";
 import { useState } from "react";
-
+import { genreTranslator } from "../lib/genreTranslator";
 const DetailModal = () => {
   const dispatch = useDispatch();
-  const { title, overview, poster } = useSelector((state) => state.details);
+  const {
+    poster,
+    title,
+    overview,
+    genre,
+    release_date,
+    vote_average,
+    vote_count,
+  } = useSelector((state) => state.details);
   console.log("detailsModal", title, overview, poster);
   const [imageUrl, setImageUrl] = useState(
     `https://image.tmdb.org/t/p/w1280${poster}` || "/movie_poster.jpg"
@@ -18,15 +26,17 @@ const DetailModal = () => {
   };
   return (
     <div
-      className="absolute left-0 top-0 grid  items-center justify-center bg-transBlack  w-full h-full z-20"
+      className="absolute left-0 top-0 grid  items-center justify-center bg-transBlack  w-full h-full z-20 "
       onClick={() => dispatch(closeModal())}
     >
+      {/* Main Modal Box */}
       <div
-        className="fixed top-14 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl h-[90%] grid  grid-rows-[2fr_3fr] md:grid-rows-[2fr_1fr] lg:grid-rows-[4fr_1fr] bg-backgroundBlack overflow-auto"
+        className="fixed top-14 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl h-[90%] grid  grid-rows-[minmax(300px,2fr)_3fr] md:grid-rows-[minmax(400px,2fr)_1fr] lg:grid-rows-[minmax(450px,4fr)_1fr] bg-backgroundBlack overflow-y-auto "
         onClick={(e) => e.stopPropagation()}
       >
         {/* Banner Container */}
-        <div className="relative  ">
+        <div className="relative ">
+          {/* Banner Image  */}
           <Image
             className="rounded-t-md "
             src={imageUrl}
@@ -58,15 +68,39 @@ const DetailModal = () => {
             </div>
           </div>
         </div>
+
         {/* Details Container*/}
         <div className="grid gap-4 content-start p-4">
           <h1 className=" text-lg font-bold  h-fit tracking-wide md:text-xl lg:text-1xl ">
             {title}
           </h1>
-          <p className=" h-fit text-sm tracking-wide font-medium   md:text-base ">
+          <p className=" h-fit text-sm tracking-wide font-medium   ">
             {overview}
           </p>
+
+          {/* Underline */}
           <div className="bg-bottom bg-slate-500 w-full h-[1px]"></div>
+
+          {/* Additional info */}
+          <div className="grid gap-2 text-sm">
+            <p>
+              {genre &&
+                ` 
+            Genre :
+            ${genre
+              .map((item) => {
+                return genreTranslator(item);
+              })
+              .join(" . ")}`}
+            </p>
+            <p>
+              {vote_average &&
+                `Rating: ${Number(vote_average).toFixed(1)} / 10`}
+            </p>
+            <p>{vote_count && `Reviewers: ${vote_count}`}</p>
+
+            <p>{release_date && `Release Date: ${release_date}`}</p>
+          </div>
         </div>
       </div>
     </div>
