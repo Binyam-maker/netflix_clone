@@ -1,14 +1,14 @@
 import Head from "next/head";
 import Navbar from "../components/Navbar";
-import { useRouter } from "next/router";
+
 import HomeBanner from "../components/HomeBanner";
-import AuthBanner from "../components/AuthBanner";
+
 import Row from "../components/Row";
 import { wrapper } from "../store";
 import { addMainData } from "../features/feature/featureSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import getMainData from "../lib/getMainData";
-import { useSession } from "next-auth/react";
+
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { useEffect, useState } from "react";
@@ -63,7 +63,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       context.res,
       authOptions
     );
-    console.log("session", session);
+
     // redirect if user is not authenticated
     if (!session) {
       return {
@@ -76,8 +76,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     //get mainData to redux store
     try {
       const mainData = await getMainData();
-
-      store.dispatch(addMainData(mainData));
+      mainData ? store.dispatch(addMainData(mainData)) : undefined;
     } catch (error) {
       console.log(error);
     }
