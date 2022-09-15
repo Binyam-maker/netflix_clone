@@ -30,9 +30,7 @@ export default async function (req, res) {
   // if req is post create an item
   if (req.method === "POST") {
     try {
-      console.log({ item });
       const newItem = await Item.create(item);
-      console.log({ newItem });
       res.status(StatusCodes.CREATED).json({ newItem });
     } catch (error) {
       res

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { HYDRATE } from "next-redux-wrapper";
 
 const initialState = {
   myList: [],
@@ -22,13 +23,21 @@ const initialState = {
 const myListSlice = createSlice({
   name: "myList",
   initialState,
-  reducer: {
+  reducers: {
     clearMyList: (state) => {
       state.myList = [];
       state.isLoading = false;
     },
+
     addToMyList: (state, { payload }) => {
-      (state.myList = payload), (state.isLoading = false);
+      state.myList = payload;
+      state.isLoading = false;
+    },
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      state.myList = action.payload.myList.myList;
+      state.isLoading = action.payload.myList.isLoading;
     },
   },
   //   extraReducers: {
