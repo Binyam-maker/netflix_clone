@@ -8,17 +8,18 @@ const initialState = {
   isLoading: false,
 };
 
-// export const addToMyList = createAsyncThunk(
-//   "myList/addToMyList",
-//   async (item, thunkApi) => {
-//     try {
-//       const resp = await axios.post("/api/addToMyList", item);
-//       return resp.data;
-//     } catch (error) {
-//       thunkApi.rejectWithValue(error.response.data.msg);
-//     }
-//   }
-// );
+export const addToMyList = createAsyncThunk(
+  "myList/addToMyList",
+  async (item, thunkApi) => {
+    try {
+      const resp = await axios.post("/api/my-list/post-list", { item });
+
+      return resp.data.newItem;
+    } catch (error) {
+      thunkApi.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
 
 const myListSlice = createSlice({
   name: "myList",
@@ -29,31 +30,30 @@ const myListSlice = createSlice({
       state.isLoading = false;
     },
 
-    addToMyList: (state, { payload }) => {
+    getMyList: (state, { payload }) => {
       state.myList = payload;
       state.isLoading = false;
     },
   },
+
   extraReducers: {
+    [addToMyList.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [addToMyList.fulfilled]: (state, { payload }) => {
+      state.myList = [...state.myList, payload];
+      state.isLoading = false;
+    },
+    [addToMyList.rejected]: (state) => {
+      state.isLoading = false;
+      toast.error("Sorry, Item was not added to My-List");
+    },
     [HYDRATE]: (state, action) => {
       state.myList = action.payload.myList.myList;
       state.isLoading = action.payload.myList.isLoading;
     },
   },
-  //   extraReducers: {
-  //     [addToMyList.pending]: (state) => {
-  //       state.isLoading = true;
-  //     },
-  //     [addToMyList.fulfilled]: (state, { payload }) => {
-  //       state.myList = payload;
-  //       state.isLoading = false;
-  //     },
-  //     [addToMyList.rejected]: (state) => {
-  //       state.isLoading = false;
-  //       toast.error("Sorry, Item was not added to My-List");
-  //     },
-  //   },
 });
 
-export const { clearMyList, addToMyList } = myListSlice.actions;
+export const { clearMyList, getMyList } = myListSlice.actions;
 export default myListSlice.reducer;

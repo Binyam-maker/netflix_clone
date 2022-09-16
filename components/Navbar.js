@@ -45,7 +45,10 @@ const Navbar = ({ home }) => {
     <div className="absolute top-0 left-0 flex w-screen h-20  items-center  z-10 lg:max-w-5xl md:max-w-3xl mx-auto  ">
       {/* Logo */}
 
-      <div className="absolute  left-10   w-24 h-10 md:w-32 md:h-26  ">
+      <div
+        className="absolute  left-10   w-24 h-10 md:w-32 md:h-26 hover:cursor-pointer "
+        onClick={() => router.push("/")}
+      >
         <Image src="/netflix_logo.png" layout="fill" objectFit="cover" />
       </div>
 
@@ -53,10 +56,10 @@ const Navbar = ({ home }) => {
 
       <div className="absolute left-1/4 invisible lg:visible">
         <ul className="flex  gap-4">
-          <li>
+          <li className="hover:cursor-pointer">
             <Link href="/">Home</Link>
           </li>
-          <li>
+          <li className="hover:cursor-pointer">
             <Link href="/my-list">My List</Link>
           </li>
         </ul>
@@ -66,7 +69,7 @@ const Navbar = ({ home }) => {
       {home && (
         <button
           type="submit"
-          className="flex place-items-center px-11 py-2 text-[15px] rounded-md gap-2  bg-transparent mx-auto mt-12 lg:hidden"
+          className="flex place-items-center px-11 py-2 text-[15px] rounded-md gap-2  bg-transparent mx-auto mt-12 lg:hidden hover:cursor-pointer"
           onClick={onPagesDropDown}
         >
           Discover
@@ -87,7 +90,7 @@ const Navbar = ({ home }) => {
       {!home && (
         <button
           className="absolute right-10  bg-mainRed px-2 rounded-sm text-base md:text-lg 
-         "
+         hover:cursor-pointer"
           onClick={() => signIn()}
         >
           Sign In
@@ -99,7 +102,7 @@ const Navbar = ({ home }) => {
       {home && (
         <motion.button
           onClick={onDropDown}
-          className="absolute right-10 text-base md:text-lg 
+          className="absolute right-10 text-base md:text-lg hover:cursor-pointer
          "
           variants={dropDownVariant}
           animate={showSignOut ? "rotate" : "stop"}
@@ -111,7 +114,7 @@ const Navbar = ({ home }) => {
 
       {showSignOut && (
         <button
-          className=" absolute right-5 top-20  bg-neutral-800 px-3 rounded-sm text-base md:text-lg"
+          className=" absolute right-5 top-20  bg-neutral-800 px-3 rounded-sm text-base md:text-lg hover:cursor-pointer"
           onClick={onSignOut}
         >
           Sign Out

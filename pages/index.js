@@ -47,8 +47,15 @@ export default function Home() {
         <Navbar home={true} />
         {isModalOpen && <DetailModal />}
         <HomeBanner />
-        <Row title={"Trending TV"} list={mainData.trendingTV} />
-        <Row title={"Trending Movie"} list={mainData.trendingMovie} />
+        <Row title={"TV"} list={mainData.trendingTV} />
+        <Row title={"Movie"} list={mainData.trendingMovie} />
+        {/* Menu Modal
+        {menuModalOpen && (
+          <MenuModal
+            setMenuModalOpen={setMenuModalOpen}
+            setCurrentPage={setCurrentPage}
+          />
+        )} */}
       </main>
       <footer></footer>
     </div>

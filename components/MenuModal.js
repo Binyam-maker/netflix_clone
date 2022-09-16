@@ -31,7 +31,7 @@ const MenuModal = ({ setMenuModalOpen, setCurrentPage }) => {
   return (
     <AnimatePresence>
       <motion.div
-        className="grid absolute top-0 left-0 bg-transBlack2 w-screen h-screen items-center "
+        className="overflow-hidden grid absolute top-0 left-0 bg-transBlack2 w-screen h-screen items-center "
         key={"modal"}
         onClick={onModalClick}
         variants={menuContainer}

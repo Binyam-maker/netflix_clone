@@ -29,7 +29,7 @@ export default async function (req, res) {
     const createdUser = await User.create(user);
     // Remove email and password
     const newUser = createTokenUser(createdUser);
-    console.log("createdUser", newUser);
+
     res.status(StatusCodes.CREATED).json({ success: true, data: newUser });
     return;
   } catch (error) {

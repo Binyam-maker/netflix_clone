@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 import { BsFillPlayFill, BsPlus, BsFillCaretDownFill } from "react-icons/bs";
 import { genreTranslator } from "../lib/genreTranslator";
 import { openModal } from "../features/details/detailsSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useSession } from "next-auth/react";
+import { addToMyList } from "../features/my-list/myListSlice";
 
 const cardContainer = {
   hover: {
@@ -22,6 +24,7 @@ const Card = ({
   release_date,
   vote_average,
   vote_count,
+  myListPage,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [hover, setHover] = useState(false);
@@ -29,7 +32,7 @@ const Card = ({
     `https://image.tmdb.org/t/p/w1280${poster}` || "/movie_poster.jpg"
   );
   const dispatch = useDispatch();
-
+  const { data: session, status } = useSession();
   const isSmallCard = size === "small";
 
   const dimensions = isSmallCard
@@ -69,6 +72,21 @@ const Card = ({
       })
     );
   }
+
+  const handleAddToMyList = () => {
+    const item = {
+      poster,
+      title,
+      overview,
+      genre,
+      release_date,
+      vote_average,
+      vote_count,
+      uid: session.user.email,
+    };
+
+    dispatch(addToMyList(item));
+  };
   return (
     <motion.div
       className={`relative  flex-none hover:z-10  ${dimensions}`}
@@ -110,10 +128,15 @@ const Card = ({
           <button className=" rounded-full border-2  bg-transBlack hover:text-backgroundBlack hover:bg-slate-200 w-fit h-fit p-1">
             <BsFillPlayFill />
           </button>
+          {!myListPage && (
+            <button
+              className=" rounded-full border-2  bg-transBlack hover:text-backgroundBlack hover:bg-slate-200 w-fit h-fit p-1"
+              onClick={handleAddToMyList}
+            >
+              <BsPlus />
+            </button>
+          )}
 
-          <button className=" rounded-full border-2  bg-transBlack hover:text-backgroundBlack hover:bg-slate-200 w-fit h-fit p-1">
-            <BsPlus />
-          </button>
           <button
             className=" rounded-full border-2  bg-transBlack hover:text-backgroundBlack hover:bg-slate-200 w-fit h-fit p-1"
             onClick={handleOpenModal}

@@ -7,6 +7,8 @@ import { BsXLg, BsPlusLg } from "react-icons/bs";
 import { useState } from "react";
 import { genreTranslator } from "../lib/genreTranslator";
 import { motion, AnimatePresence } from "framer-motion";
+import { addToMyList } from "../features/my-list/myListSlice";
+import { useSession } from "next-auth/react";
 
 const modalVariants = {
   hidden: {
@@ -28,8 +30,11 @@ const modalVariants = {
     y: "100vh",
   },
 };
-const DetailModal = () => {
+const DetailModal = ({ myListPage }) => {
   const dispatch = useDispatch();
+  const { data: session, status } = useSession();
+  console.log({ session });
+
   const {
     poster,
     title,
@@ -39,17 +44,30 @@ const DetailModal = () => {
     vote_average,
     vote_count,
   } = useSelector((state) => state.details);
-  console.log("detailsModal", title, overview, poster);
+
   const [imageUrl, setImageUrl] = useState(
     `https://image.tmdb.org/t/p/w1280${poster}` || "/movie_poster.jpg"
   );
   const handleOnError = () => {
     setImageUrl("/movie_poster.jpg");
   };
-  const handleAdToMyList = () => {};
+  const handleAddToMyList = () => {
+    const item = {
+      poster,
+      title,
+      overview,
+      genre,
+      release_date,
+      vote_average,
+      vote_count,
+      uid: session.user.email,
+    };
+
+    dispatch(addToMyList(item));
+  };
   return (
     <motion.div
-      className="absolute left-0 top-0 grid  items-center justify-center bg-transBlack  w-full h-full z-20  "
+      className="absolute left-0 top-0 grid  items-center justify-center bg-transBlack  w-full h-full z-20 mb-8 "
       onClick={() => dispatch(closeModal())}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -94,12 +112,14 @@ const DetailModal = () => {
                   <FaPlay />
                   Play
                 </button>
-                <button
-                  className="text-1xl md:text-2xl rounded-full bg-transBlack hover:text-backgroundBlack hover:bg-slate-200 w-fit h-fit p-2 "
-                  onClick={handleAdToMyList}
-                >
-                  <BsPlusLg />
-                </button>
+                {!myListPage && (
+                  <button
+                    className="text-1xl md:text-2xl rounded-full bg-transBlack hover:text-backgroundBlack hover:bg-slate-200 w-fit h-fit p-2 "
+                    onClick={handleAddToMyList}
+                  >
+                    <BsPlusLg />
+                  </button>
+                )}
               </div>
             </div>
           </div>
