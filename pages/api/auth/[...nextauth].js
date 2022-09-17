@@ -34,6 +34,7 @@ export const authOptions = {
             email: user.email,
             image: "/movie_poster.jpg",
           };
+
           return sessionUser;
         } catch (error) {
           return null;

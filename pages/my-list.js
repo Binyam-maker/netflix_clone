@@ -10,6 +10,7 @@ import { authOptions } from "./api/auth/[...nextauth]";
 import DetailModal from "../components/DetailModal";
 import Head from "next/head";
 import MenuModal from "../components/MenuModal";
+import { toast, ToastContainer } from "react-toastify";
 
 const MyList = () => {
   const { myList } = useSelector((state) => state.myList);

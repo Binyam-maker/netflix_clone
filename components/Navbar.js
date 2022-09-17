@@ -77,14 +77,6 @@ const Navbar = ({ home }) => {
         </button>
       )}
 
-      {/* Menu Modal
-      {menuModalOpen && (
-        <MenuModal
-          setMenuModalOpen={setMenuModalOpen}
-          setCurrentPage={setCurrentPage}
-        />
-      )} */}
-
       {/* Sign In */}
 
       {!home && (

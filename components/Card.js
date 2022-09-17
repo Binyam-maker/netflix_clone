@@ -8,6 +8,8 @@ import { openModal } from "../features/details/detailsSlice";
 import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
 import { addToMyList } from "../features/my-list/myListSlice";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const cardContainer = {
   hover: {
@@ -34,6 +36,7 @@ const Card = ({
   const dispatch = useDispatch();
   const { data: session, status } = useSession();
   const isSmallCard = size === "small";
+  const router = useRouter();
 
   const dimensions = isSmallCard
     ? " w-60 h-36  md:w-64 md:h-32 lg:w-72 lg:h-40"
@@ -74,6 +77,11 @@ const Card = ({
   }
 
   const handleAddToMyList = () => {
+    if (!session) {
+      router.push("/login");
+      toast.info("Sign in to save to your list");
+      return;
+    }
     const item = {
       poster,
       title,

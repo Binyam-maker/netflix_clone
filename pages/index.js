@@ -65,7 +65,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         },
       };
     }
-    //get mainData to redux store
+    // get mainData to redux store
     try {
       const mainData = await getMainData();
       mainData ? store.dispatch(addMainData(mainData)) : undefined;
@@ -75,7 +75,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     // get user data to redux store
 
-    store.dispatch(addUser(session.user));
+    if (session) store.dispatch(addUser(session.user));
     // send session to page if you need it use it, eg - to display username
     return {
       props: {

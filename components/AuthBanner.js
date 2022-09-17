@@ -7,8 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { registerUser } from "../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { signIn } from "next-auth/react";
 
 const initialValuesState = {
   name: "",
@@ -16,11 +15,12 @@ const initialValuesState = {
   password: "",
 };
 
+const anonEmail = "nairoby@gmail.com";
+const anonPassword = "nairoby@gmail.com";
 const Banner = () => {
   const [values, setValues] = useState(initialValuesState);
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
-  console.log("authBanner user", user);
 
   // Controlled input
   const handleChange = (e) => {
@@ -47,7 +47,7 @@ const Banner = () => {
       {/* Banner Picture */}
       <Image src="/banner_pic.jpg" layout="fill" objectFit="cover" />
       {/* Dark Gradient Overlay*/}
-      <div className=" relative w-full h-full  bg-gradient-to-b from-black to-black via-transBlack  "></div>
+      <div className=" relative w-full h-full  bg-gradient-to-b from-black to-black via-transBlack "></div>
       {/* Detail */}
       <div className="absolute top-8 left-0 grid place-items-center w-full h-full text-center  mx-auto ">
         <div>
@@ -57,12 +57,40 @@ const Banner = () => {
           <p className="text-xl bold mt-4  md:text-2xl ">
             Watch anywhere. Cancel anytime.
           </p>
-          <p className="text-xl bold max-w-xs mx-auto mt-4  md:text-1xl md:max-w-none">
+          {/* <p className="text-xl bold max-w-xs mx-auto mt-4  md:text-1xl md:max-w-none">
             Ready to watch? Enter your email to create or restart your
             membership.
-          </p>
+          </p> */}
+          <div className="grid gap-4 mt-8 mb-4  justify-items-center mx-auto w-52 ">
+            <button
+              className="bg-mainRed px-2 rounded-sm text-lg md:text-lg 
+         hover:cursor-pointer hover:scale-105 transition w-full "
+              onClick={() =>
+                signIn("credentials", {
+                  email: anonEmail,
+                  password: anonPassword,
+                })
+              }
+            >
+              Sign in anonymously
+            </button>
+            <button
+              className="bg-mainRed px-2 rounded-sm text-lg md:text-lg 
+         hover:cursor-pointer hover:scale-105 transition w-full"
+              onClick={() => signIn("google")}
+            >
+              Sign in wit Google
+            </button>
+            <button
+              className="bg-mainRed px-2 rounded-sm text-lg md:text-lg 
+         hover:cursor-pointer hover:scale-105 transition w-full"
+              onClick={() => signIn()}
+            >
+              Sign in with Email
+            </button>
+          </div>
 
-          <form className="grid md:flex gap-1 md:align-middle   mt-4">
+          <form className="grid md:flex gap-1 md:align-middle mt-4 ">
             <FormRow
               name={"name"}
               placeholder={"Name"}
@@ -89,7 +117,7 @@ const Banner = () => {
               className="flex place-items-center bg-mainRed p-2 text-xl mx-auto min-w-fit mt-4 md:mt-0  "
               onClick={handleOnSubmit}
             >
-              Get Started
+              Sign up
               <MdKeyboardArrowRight />
             </button>
           </form>

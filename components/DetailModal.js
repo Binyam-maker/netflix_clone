@@ -9,6 +9,8 @@ import { genreTranslator } from "../lib/genreTranslator";
 import { motion, AnimatePresence } from "framer-motion";
 import { addToMyList } from "../features/my-list/myListSlice";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const modalVariants = {
   hidden: {
@@ -33,6 +35,7 @@ const modalVariants = {
 const DetailModal = ({ myListPage }) => {
   const dispatch = useDispatch();
   const { data: session, status } = useSession();
+  const router = useRouter();
   console.log({ session });
 
   const {
@@ -52,6 +55,11 @@ const DetailModal = ({ myListPage }) => {
     setImageUrl("/movie_poster.jpg");
   };
   const handleAddToMyList = () => {
+    if (!session) {
+      router.push("/login");
+      toast.info("Sign in to save to your list");
+      return;
+    }
     const item = {
       poster,
       title,

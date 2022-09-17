@@ -8,7 +8,7 @@ const FormRow = ({ name, placeholder, onChange, type, value }) => {
       onChange={onChange}
       type={type}
       value={value}
-      className="p-2 rounded-sm w-full outline-none text-black "
+      className="p-2 rounded-sm w-full outline-none text-black  bg-white"
     />
   );
 };
