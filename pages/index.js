@@ -19,20 +19,6 @@ export default function Home() {
   const { isModalOpen: isMenuModalOpen } = useSelector(
     (state) => state.menuModal
   );
-  // const [menuModalOpen, setMenuModalOpen] = useState(false);
-
-  // const { data: session } = useSession();
-
-  useEffect(() => {
-    // dispatch(addUser(session.))
-    // console.log("session props", props);
-  }, []);
-
-  // if (typeof window === "undefined") return null;
-  //from next-auth documentation - Securing pages and API routes
-  // useEffect runs only on browser
-  // useEffect(() => null);
-  // if user/session  is undefined or null show login page
 
   return (
     <div>
@@ -45,21 +31,16 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="relative overflow-hidden bg-backgroundBlack ">
+      <main className="relative overflow-hidden bg-backgroundBlack mb-4 ">
         <Navbar home={true} />
         {isModalOpen && <DetailModal />}
         {/* Menu Modal */}
         {isMenuModalOpen && <MenuModal />}
         <HomeBanner />
-        <Row title={"TV"} list={mainData.trendingTV} />
+        <Row title={"Originals"} list={mainData.originals} />
         <Row title={"Movie"} list={mainData.trendingMovie} />
-        {/* Menu Modal
-        {menuModalOpen && (
-          <MenuModal
-            setMenuModalOpen={setMenuModalOpen}
-            setCurrentPage={setCurrentPage}
-          />
-        )} */}
+        <Row title={"TV"} list={mainData.trendingTV} />
+        <Row title={"Kids"} list={mainData.topKids} />
       </main>
       <footer></footer>
     </div>
