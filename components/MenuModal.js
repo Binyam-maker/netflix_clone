@@ -55,6 +55,7 @@ const MenuModal = () => {
                       : "text-white"
                   } cursor-pointer`}
                   onClick={onMenu}
+                  key={page.text}
                 >
                   {page.text}
                 </li>

@@ -45,7 +45,12 @@ const Banner = () => {
       {/* Background Container */}
 
       {/* Banner Picture */}
-      <Image src="/banner_pic.jpg" layout="fill" objectFit="cover" />
+      <Image
+        src="/banner_pic.jpg"
+        layout="fill"
+        objectFit="cover"
+        alt="Auth Banner"
+      />
       {/* Dark Gradient Overlay*/}
       <div className=" relative w-full h-full  bg-gradient-to-b from-black to-black via-transBlack "></div>
       {/* Detail */}

@@ -47,7 +47,7 @@ const HomeBanner = () => {
   return (
     <div className=" relative w-screen h-[90vh] md:h-screen">
       {/* Banner Picture */}
-      <Image src={imgUrl} layout="fill" objectFit="cover" />
+      <Image src={imgUrl} layout="fill" objectFit="cover" alt="Home Banner" />
       {/* Dark Gradient Overlay*/}
       <div className=" relative w-full h-full  bg-gradient-to-b from-black to-black via-transBlack  "></div>
       {/* Detail */}
