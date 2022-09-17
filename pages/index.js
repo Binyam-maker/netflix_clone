@@ -1,23 +1,25 @@
 import Head from "next/head";
 import Navbar from "../components/Navbar";
-
 import HomeBanner from "../components/HomeBanner";
-
 import Row from "../components/Row";
 import { wrapper } from "../store";
 import { addMainData } from "../features/feature/featureSlice";
 import { useSelector } from "react-redux";
 import getMainData from "../lib/getMainData";
-
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { addUser } from "../features/auth/authSlice";
 import DetailModal from "../components/DetailModal";
+import MenuModal from "../components/MenuModal";
 
 export default function Home() {
   const { mainData } = useSelector((state) => state.feature);
   const { isModalOpen } = useSelector((state) => state.details);
+  const { isModalOpen: isMenuModalOpen } = useSelector(
+    (state) => state.menuModal
+  );
+  // const [menuModalOpen, setMenuModalOpen] = useState(false);
 
   // const { data: session } = useSession();
 
@@ -46,6 +48,8 @@ export default function Home() {
       <main className="relative overflow-hidden bg-backgroundBlack ">
         <Navbar home={true} />
         {isModalOpen && <DetailModal />}
+        {/* Menu Modal */}
+        {isMenuModalOpen && <MenuModal />}
         <HomeBanner />
         <Row title={"TV"} list={mainData.trendingTV} />
         <Row title={"Movie"} list={mainData.trendingMovie} />

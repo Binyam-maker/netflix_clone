@@ -8,52 +8,66 @@ import { useSelector } from "react-redux";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import DetailModal from "../components/DetailModal";
+import Head from "next/head";
+import MenuModal from "../components/MenuModal";
 
 const MyList = () => {
   const { myList } = useSelector((state) => state.myList);
   const { isModalOpen } = useSelector((state) => state.details);
-
+  const { isModalOpen: isMenuModalOpen } = useSelector(
+    (state) => state.menuModal
+  );
   return (
-    <div className="overflow-hidden">
-      <Navbar home={true} />
-      <div className="absolute top-24 p-8 left-1/2 -translate-x-[50%] w-screen ">
-        {/* Title */}
-        <h1 className=" text-xl font-bold mb-4 text-center sm:text-left">
-          My List
-        </h1>
+    <div className="overflow-x-hidden">
+      <Head>
+        <title>My List</title>
+        <meta name="description" content="Items saved to my list." />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="overflow-hidden">
+        <Navbar home={true} />
         {/* List Container */}
         {isModalOpen && <DetailModal myListPage={true} />}
+        {/* Menu Modal */}
+        {isMenuModalOpen && <MenuModal />}
 
-        <section className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 place-items-center">
-          {myList &&
-            myList.map((item) => {
-              const {
-                poster,
-                title,
-                genre,
-                overview,
-                release_date,
-                vote_average,
-                vote_count,
-                _id,
-              } = item;
+        <div className="absolute top-24 p-8 left-1/2 -translate-x-[50%] w-screen ">
+          {/* Title */}
+          <h1 className=" text-xl font-bold mb-4 text-center sm:text-left">
+            My List
+          </h1>
 
-              return (
-                <Card
-                  key={_id}
-                  size={"small"}
-                  poster={poster}
-                  title={title}
-                  genre={genre}
-                  overview={overview}
-                  release_date={release_date}
-                  vote_average={vote_average}
-                  vote_count={vote_count}
-                  myListPage={true}
-                />
-              );
-            })}
-        </section>
+          <section className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 place-items-center">
+            {myList &&
+              myList.map((item) => {
+                const {
+                  poster,
+                  title,
+                  genre,
+                  overview,
+                  release_date,
+                  vote_average,
+                  vote_count,
+                  _id,
+                } = item;
+
+                return (
+                  <Card
+                    key={_id}
+                    size={"small"}
+                    poster={poster}
+                    title={title}
+                    genre={genre}
+                    overview={overview}
+                    release_date={release_date}
+                    vote_average={vote_average}
+                    vote_count={vote_count}
+                    myListPage={true}
+                  />
+                );
+              })}
+          </section>
+        </div>
       </div>
     </div>
   );

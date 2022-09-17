@@ -129,7 +129,9 @@ const DetailModal = ({ myListPage }) => {
             <h1 className=" text-lg font-bold  h-fit tracking-wide md:text-xl lg:text-1xl ">
               {title}
             </h1>
-            <p className=" h-fit text-sm tracking-wide">{overview}</p>
+            <p className=" h-fit text-sm tracking-wide text-gray-200">
+              {overview}
+            </p>
 
             {/* Underline */}
             <div className="bg-bottom bg-slate-500 w-full h-[1px]"></div>

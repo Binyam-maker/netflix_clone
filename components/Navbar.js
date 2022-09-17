@@ -4,11 +4,11 @@ import { FaSortDown } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import MenuModal from "./MenuModal";
+
 import { signIn, signOut } from "next-auth/react";
 import { clearUser } from "../features/auth/authSlice";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { openModal, closeModal } from "../features/menu/menuModalSlice";
 const dropDownVariant = {
   rotate: {
     rotate: 180,
@@ -23,15 +23,15 @@ const dropDownVariant = {
 
 const Navbar = ({ home }) => {
   const [showSignOut, setShowSignOut] = useState(false);
-  const [currentPage, setCurrentPage] = useState("Discover");
-  const [menuModalOpen, setMenuModalOpen] = useState(false);
+  const { isModalOpen } = useSelector((state) => state.menuModal);
+
   const dispatch = useDispatch();
   const router = useRouter();
   const onDropDown = () => {
     setShowSignOut(!showSignOut);
   };
   const onPagesDropDown = () => {
-    setMenuModalOpen(!menuModalOpen);
+    isModalOpen ? dispatch(closeModal()) : dispatch(openModal());
   };
 
   const onSignOut = (e) => {
@@ -77,13 +77,13 @@ const Navbar = ({ home }) => {
         </button>
       )}
 
-      {/* Menu Modal */}
+      {/* Menu Modal
       {menuModalOpen && (
         <MenuModal
           setMenuModalOpen={setMenuModalOpen}
           setCurrentPage={setCurrentPage}
         />
-      )}
+      )} */}
 
       {/* Sign In */}
 

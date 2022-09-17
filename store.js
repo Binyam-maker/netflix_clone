@@ -3,6 +3,7 @@ import featureReducer from "./features/feature/featureSlice";
 import authReducer from "./features/auth/authSlice";
 import detailsReducer from "./features/details/detailsSlice";
 import myListReducer from "./features/my-list/myListSlice";
+import menuModalReducer from "./features/menu/menuModalSlice";
 import { createWrapper } from "next-redux-wrapper";
 
 export const store = () =>
@@ -12,6 +13,7 @@ export const store = () =>
       auth: authReducer,
       details: detailsReducer,
       myList: myListReducer,
+      menuModal: menuModalReducer,
     },
   });
 

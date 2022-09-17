@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { closeModal } from "../features/menu/menuModalSlice";
 
 const pages = [
   { link: "/", text: "Home" },
@@ -16,44 +18,51 @@ const menuContainer = {
   },
 };
 
-const MenuModal = ({ setMenuModalOpen, setCurrentPage }) => {
+const MenuModal = () => {
   const router = useRouter();
+
+  const dispatch = useDispatch();
 
   const onModalClick = (e) => {
     e.preventDefault();
-    setMenuModalOpen(false);
+    dispatch(closeModal());
+    // setMenuModalOpen(false);
   };
   const onMenu = (e) => {
     e.preventDefault();
-    setCurrentPage(e.target.innerText);
+
     e.target.innerText === "Home" ? router.push("/") : router.push("/my-list");
   };
   return (
     <AnimatePresence>
-      <motion.div
-        className="overflow-hidden grid absolute top-0 left-0 bg-transBlack2 w-screen h-screen items-center "
-        key={"modal"}
-        onClick={onModalClick}
-        variants={menuContainer}
-        initial={"hidden"}
-        animate={"visible"}
-        exit={"hidden"}
-      >
-        <ul className="grid gap-4 align-middle  font-bold text-center text-lg">
-          {pages.map((page) => {
-            return (
-              <li
-                className={`hover:scale-110 ${
-                  router.pathname === page.link ? "text-mainRed" : "text-white"
-                }`}
-                onClick={onMenu}
-              >
-                {page.text}
-              </li>
-            );
-          })}
-        </ul>
-      </motion.div>
+      <div className="absolute top-0 left-0 w-full h-full grid items-start z-10">
+        <motion.div
+          className="fixed overflow-hidden grid  bg-transBlack2 w-screen h-screen items-center "
+          key={"modal"}
+          onClick={onModalClick}
+          variants={menuContainer}
+          initial={"hidden"}
+          animate={"visible"}
+          exit={"hidden"}
+        >
+          <ul className="grid gap-4 align-middle  font-bold text-center text-lg">
+            {pages.map((page) => {
+              return (
+                <li
+                  className={`hover:scale-110 ${
+                    router.pathname === page.link
+                      ? "text-mainRed"
+                      : "text-white"
+                  } cursor-pointer`}
+                  onClick={onMenu}
+                >
+                  {page.text}
+                </li>
+              );
+            })}
+          </ul>
+        </motion.div>
+      </div>
     </AnimatePresence>
   );
 };
