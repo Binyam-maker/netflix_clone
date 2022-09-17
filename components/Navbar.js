@@ -49,7 +49,12 @@ const Navbar = ({ home }) => {
         className="absolute  left-10   w-24 h-10 md:w-32 md:h-26 hover:cursor-pointer "
         onClick={() => router.push("/")}
       >
-        <Image src="/netflix_logo.png" layout="fill" objectFit="cover" />
+        <Image
+          src="/netflix_logo.png"
+          layout="fill"
+          objectFit="cover"
+          alt="Netflix logo"
+        />
       </div>
 
       {/* Menus for large screen */}
